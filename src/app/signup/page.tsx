@@ -3,18 +3,19 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { Eye, EyeOff } from "lucide-react";
+import Link from "next/link";
 export default function SignupPage() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   return (
     <div className="min-h-screen flex flex-col -between md:flex-row ">
       {/* Left Image Section */}
-      <div className="hidden md:flex w-full md:w-[606px] relative bg-[#E2ECF8]">
+      <div className="hidden md:flex w-full md:w-[606px] relative bg-[#E2ECF8] h-full min-h-screen overflow-hidden">
         <Image
-          src="/images/poster-woman-holding-up-blue-box-that-says-log-cabin-it.svg" // public folder থেকে সরাসরি path
+          src="/images/signUpImage.png"
           alt="Signup Illustration"
-          width={613}
-          height={344}
+          fill
+          priority
           className="object-contain"
         />
       </div>
@@ -112,9 +113,9 @@ export default function SignupPage() {
 
           <p className="text-center text-sm text-gray-500 mt-4">
             Already have an account?{" "}
-            <a href="/login" className="text-blue-600 hover:underline">
+            <Link href="/login" className="text-blue-600 hover:underline">
               Log in
-            </a>
+            </Link>
           </p>
         </div>
       </div>
