@@ -1,6 +1,6 @@
-import { useAuth } from "@/context/AuthContext";
+// import { useAuth } from "@/context/AuthContext";
 
-const Comp = () => {
-  const { user, login, signup, logout, loading } = useAuth();
+// const Comp = () => {
+//   const { user, login, signup, logout, loading } = useAuth();
  
-};
+// };
