@@ -1,5 +1,6 @@
 // import { redirect } from "next/navigation";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import TasksPage from "@/components/ui/Card";
 // import { getAccessToken } from "@/utils/token";
 
 export default function HomePage() {
@@ -15,6 +16,7 @@ export default function HomePage() {
     <DashboardLayout>
       <h1 className="text-2xl font-semibold">Dashboard</h1>
       <p className="mt-3 text-gray-600">Welcome to your dashboard.</p>
+       <TasksPage/>
     </DashboardLayout>
   );
 }

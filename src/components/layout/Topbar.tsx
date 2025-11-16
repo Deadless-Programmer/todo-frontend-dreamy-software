@@ -8,7 +8,7 @@ export default function Topbar() {
 
   return (
     <header className="h-20 bg-white  flex items-center justify-between px-10 ml-[300px] fixed top-0 right-0 left-0">
-      <div className="text-xl font-semibold">Dreamy Software</div>
+      <div className="text-xl font-semibold"> Todo Dashboard </div>
 
       <div className="flex items-center gap-6">
         <Bell size={22} className="text-gray-600" />

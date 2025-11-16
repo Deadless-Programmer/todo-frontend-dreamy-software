@@ -5,13 +5,17 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import { getAccessToken } from "@/utils/token";
 import { Search, Plus, Filter } from "lucide-react";
 import Image from "next/image";
-
+import TaskModal from "@/components/ui/TaskModal";
+import { useState } from "react";
 export default function TodosPage() {
+
+  const [openModal, setOpenModal] = useState(false);
   const token = getAccessToken();
   if (!token) redirect("/login");
 
   return (
     <DashboardLayout>
+       <TaskModal open={openModal} onClose={() => setOpenModal(false)} />
       <div className="w-full bg-white p-6 mt-6 rounded-lg shadow-sm space-y-4 max-w-[1100px] mx-auto">
 
         {/* Title */}
@@ -20,7 +24,7 @@ export default function TodosPage() {
             Todos
           </h2>
 
-          <button className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-md text-sm cursor-pointer hover:bg-blue-700 shadow-sm">
+          <button  onClick={() => setOpenModal(true)} className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-md text-sm cursor-pointer hover:bg-blue-700 shadow-sm">
             <Plus size={16} />
             New Task
           </button>
