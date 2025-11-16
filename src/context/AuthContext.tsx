@@ -8,10 +8,10 @@ import {
   setTokens,
   clearTokens,
   getAccessToken,
- 
 } from "../utils/token";
 
 import { LOGIN_URL, SIGNUP_URL, ME_URL } from "../lib/constants";
+import LoadingSkeleton from "@/components/ui/LoadingSkeleton";
 
 type User = {
   id: number;
@@ -46,14 +46,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const init = async () => {
       const access = getAccessToken();
+
       if (access) {
         try {
           await refreshUser();
         } catch (err) {
+          console.error("Error fetching user on init:", err)
           clearTokens();
+          setUser(null); // 🔥 FIX #1 → ensure user resets
         }
       }
-      setLoading(false);
+
+      setLoading(false); // 🔥 FIX #2 → render only after user state final
     };
 
     init();
@@ -108,7 +112,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // FETCH USER FROM /me/
   // ------------------------------
   const refreshUser = async () => {
-    const res = await privateAxios.get(ME_URL);
+    const res = await privateAxios.get(ME_URL); // baseURL + token already present
     setUser(res.data);
   };
 
@@ -116,7 +120,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     <AuthContext.Provider
       value={{ user, loading, signup, login, logout, refreshUser }}
     >
-      {children}
+     {loading ? <LoadingSkeleton /> : children} 
     </AuthContext.Provider>
   );
 };

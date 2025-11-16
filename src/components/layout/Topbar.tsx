@@ -11,8 +11,8 @@ export default function Topbar() {
       <div className="text-xl font-semibold"> Todo Dashboard </div>
 
       <div className="flex items-center gap-6">
-        <Bell size={22} className="text-gray-600" />
-        <CalendarDays size={22} className="text-gray-600" />
+        <Bell size={35} className="text-white bg-blue-500 p-2 rounded-lg" />
+        <CalendarDays size={35} className="text-white bg-blue-500 p-2 rounded-lg" />
 
         <div className="text-right">
           <p className="font-medium">Friday</p>

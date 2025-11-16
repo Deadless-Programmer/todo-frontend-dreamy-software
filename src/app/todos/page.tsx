@@ -1,30 +1,32 @@
 "use client";
 
 import { redirect } from "next/navigation";
-import DashboardLayout from "@/components/layout/DashboardLayout";
+
 import { getAccessToken } from "@/utils/token";
 import { Search, Plus, Filter } from "lucide-react";
 import Image from "next/image";
 import TaskModal from "@/components/ui/TaskModal";
 import { useState } from "react";
+import HomeLayout from "@/components/layout/HomeLayout";
 export default function TodosPage() {
-
   const [openModal, setOpenModal] = useState(false);
   const token = getAccessToken();
   if (!token) redirect("/login");
 
   return (
-    <DashboardLayout>
-       <TaskModal open={openModal} onClose={() => setOpenModal(false)} />
+    <HomeLayout>
+      <TaskModal open={openModal} onClose={() => setOpenModal(false)} />
       <div className="w-full bg-white p-6 mt-6 rounded-lg shadow-sm space-y-4 max-w-[1100px] mx-auto">
-
         {/* Title */}
         <div className="flex justify-between items-center">
           <h2 className="text-3xl font-semibold border-b border-blue-500 pb-1">
             Todos
           </h2>
 
-          <button  onClick={() => setOpenModal(true)} className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-md text-sm cursor-pointer hover:bg-blue-700 shadow-sm">
+          <button
+            onClick={() => setOpenModal(true)}
+            className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-md text-sm cursor-pointer hover:bg-blue-700 shadow-sm"
+          >
             <Plus size={16} />
             New Task
           </button>
@@ -32,7 +34,6 @@ export default function TodosPage() {
 
         {/* Search + Filter Row */}
         <div className="flex items-center justify-between gap-5">
-
           {/* Search Box */}
           <div className="flex items-center border border-gray-300 rounded-md w-230 overflow-hidden">
             <input
@@ -53,9 +54,7 @@ export default function TodosPage() {
             </button>
 
             {/* Dropdown */}
-            <div
-              className="absolute right-0 w-48 bg-white border border-gray-200 shadow-md rounded-md mt-2 p-3 hidden group-hover:block z-10"
-            >
+            <div className="absolute right-0 w-48 bg-white border border-gray-200 shadow-md rounded-md mt-2 p-3 hidden group-hover:block z-10">
               <p className="text-xs text-gray-500 mb-2">Date</p>
 
               <div className="space-y-1 text-sm">
@@ -85,7 +84,6 @@ export default function TodosPage() {
 
         {/* Empty State Box */}
         <div className="w-full  border border-gray-200 rounded-lg h-[380px] flex flex-col items-center justify-center text-center">
-
           {/* Empty Illustration */}
           <Image
             src="https://i.postimg.cc/4NZFRj71/icon-no-projects.png"
@@ -96,10 +94,8 @@ export default function TodosPage() {
           />
 
           <p className="text-gray-600 mt-3 text-2xl">No todos yet</p>
-
-         
         </div>
       </div>
-    </DashboardLayout>
+    </HomeLayout>
   );
 }

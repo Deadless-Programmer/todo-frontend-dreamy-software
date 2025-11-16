@@ -1,17 +1,18 @@
 "use client";
 
 import { redirect } from "next/navigation";
-import DashboardLayout from "@/components/layout/DashboardLayout";
+
 import { getAccessToken } from "@/utils/token";
 import { Camera } from "lucide-react";
 import { BsCloudUpload } from "react-icons/bs";
+import HomeLayout from "@/components/layout/HomeLayout";
 
 export default function ProfilePage() {
   const token = getAccessToken();
   if (!token) redirect("/login");
 
   return (
-    <DashboardLayout>
+    <HomeLayout>
       <div
         className="w-full max-w-[1100px] bg-white p-6 rounded-lg shadow-sm 
         mx-auto space-y-4"
@@ -34,7 +35,6 @@ export default function ProfilePage() {
 
         {/* Form */}
         <div className="border  border-gray-300  rounded-lg p-4 space-y-3">
-          
           {/* Names */}
           <div className="grid grid-cols-2 gap-3">
             <div>
@@ -102,6 +102,6 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
-    </DashboardLayout>
+    </HomeLayout>
   );
 }

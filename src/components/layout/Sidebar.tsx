@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ListCheck, User, LogOut } from "lucide-react";
+import { ListCheck, LogOut } from "lucide-react";
 import Image from "next/image";
-import { AiFillHome } from "react-icons/ai";
+
+import { HiHome } from "react-icons/hi";
+import { FaUserLarge } from "react-icons/fa6";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -31,7 +33,7 @@ export default function Sidebar() {
       {/* Menu */}
       <nav className="w-full  flex flex-col ">
 
-        {/* Dashboard */}
+        {/* Home */}
         <Link
           href="/"
           className={`
@@ -42,7 +44,7 @@ export default function Sidebar() {
               : "hover:bg-[#1A2B52]"}
           `}
         >
-          <AiFillHome size={18} /> Dashboard
+          <HiHome size={18} /> Home
         </Link>
 
         {/* Todos */}
@@ -70,7 +72,7 @@ export default function Sidebar() {
               : "hover:bg-[#1A2B52]"}
           `}
         >
-          <User size={18} /> Account Information
+          <FaUserLarge size={18} /> Account Information
         </Link>
 
       </nav>

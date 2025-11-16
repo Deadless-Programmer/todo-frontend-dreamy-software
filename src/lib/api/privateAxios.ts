@@ -1,4 +1,4 @@
-import axios, { InternalAxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { API_BASE } from "../constants";
 import { getAccessToken } from "@/utils/token";
 
@@ -8,7 +8,7 @@ export const privateAxios = axios.create({
 
 // Request interceptor
 privateAxios.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
+  (config: AxiosRequestConfig) => {
     const token = getAccessToken();
     if (token) {
       config.headers = {
@@ -17,6 +17,6 @@ privateAxios.interceptors.request.use(
       };
     }
     return config;
-  },
-  (error) => Promise.reject(error)
+  }
 );
+
