@@ -7,6 +7,7 @@ import Image from "next/image";
 
 import { HiHome } from "react-icons/hi";
 import { FaUserLarge } from "react-icons/fa6";
+import { MdOutlinePassword } from "react-icons/md";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -44,7 +45,7 @@ export default function Sidebar() {
               : "hover:bg-[#1A2B52]"}
           `}
         >
-          <HiHome size={18} /> Home
+          <HiHome size={22} /> Home
         </Link>
 
         {/* Todos */}
@@ -58,7 +59,7 @@ export default function Sidebar() {
               : "hover:bg-[#1A2B52]"}
           `}
         >
-          <ListCheck size={18} /> Todos
+          <ListCheck size={22} /> Todos
         </Link>
 
         {/* Profile */}
@@ -73,6 +74,19 @@ export default function Sidebar() {
           `}
         >
           <FaUserLarge size={18} /> Account Information
+        </Link>
+        {/* change password */}
+        <Link
+          href="/changePassword"
+          className={`
+            flex items-center gap-3 py-4 px-9 
+            text-[#8CA3CD] transition-all
+            ${isActive("/changePassword") 
+              ? "bg-linear-to-r from-[#1c3473] to-[#0D1B3E] text-white " 
+              : "hover:bg-[#1A2B52]"}
+          `}
+        >
+        <MdOutlinePassword size={22} />Change Password
         </Link>
 
       </nav>

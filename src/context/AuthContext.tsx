@@ -4,11 +4,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { publicAxios } from "../lib/api/publicAxios";
 import { privateAxios } from "../lib/api/privateAxios";
 
-import {
-  setTokens,
-  clearTokens,
-  getAccessToken,
-} from "../utils/token";
+import { setTokens, clearTokens, getAccessToken } from "../utils/token";
 
 import { LOGIN_URL, SIGNUP_URL, ME_URL } from "../lib/constants";
 import LoadingSkeleton from "@/components/ui/LoadingSkeleton";
@@ -51,7 +47,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         try {
           await refreshUser();
         } catch (err) {
-          console.error("Error fetching user on init:", err)
+          console.error("Error fetching user on init:", err);
           clearTokens();
           setUser(null); // 🔥 FIX #1 → ensure user resets
         }
@@ -120,7 +116,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     <AuthContext.Provider
       value={{ user, loading, signup, login, logout, refreshUser }}
     >
-     {loading ? <LoadingSkeleton /> : children} 
+      {loading ? <LoadingSkeleton /> : children}
     </AuthContext.Provider>
   );
 };
