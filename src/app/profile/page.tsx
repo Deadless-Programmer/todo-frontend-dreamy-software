@@ -10,8 +10,12 @@ import { privateAxios } from "@/lib/api/privateAxios";
 import { ME_URL } from "@/lib/constants";
 import { toast } from "react-toastify";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function ProfilePage() {
+
+  
+
   const token = getAccessToken();
   if (!token) redirect("/login");
 
@@ -29,6 +33,10 @@ export default function ProfilePage() {
 
   const [loading, setLoading] = useState(false);
 
+  // Modal State
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [updatedData, setUpdatedData] = useState<any>(null);
   // --------------------------------
   // HANDLE IMAGE UPLOAD + PREVIEW
   // --------------------------------
@@ -61,9 +69,11 @@ export default function ProfilePage() {
       }
 
       const res = await privateAxios.patch(ME_URL, form);
-      console.log("Profile updated:", res.data);
 
       toast.success("Profile updated successfully!");
+
+      setUpdatedData(res.data); 
+      setModalOpen(true); 
     } catch (error: unknown) {
       type AxiosLikeError = {
         response?: { data?: { detail?: string } };
@@ -71,7 +81,6 @@ export default function ProfilePage() {
       };
 
       const err = error as AxiosLikeError;
-
       const message =
         err.response?.data?.detail || err.message || "Something went wrong!";
 
@@ -83,7 +92,11 @@ export default function ProfilePage() {
 
   return (
     <HomeLayout>
-      <div className="w-full max-w-[1100px] bg-white p-6 rounded-lg shadow-sm mx-auto space-y-4">
+      <div
+        className={`w-full max-w-[1100px] bg-white p-6 rounded-lg shadow-sm mx-auto space-y-4 transition-all ${
+          modalOpen ? "blur-sm pointer-events-none select-none" : ""
+        }`}
+      >
         {/* Title */}
         <h2 className="text-xl font-semibold border-b border-blue-500 pb-1 w-fit">
           Account Information
@@ -92,7 +105,6 @@ export default function ProfilePage() {
         {/* Photo Upload */}
         <div className="flex items-center gap-4 w-1/3 p-4 border border-gray-300 rounded-lg">
           <div className="relative w-20 h-20 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
-            {/* Preview Image */}
             {imagePreview ? (
               <Image
                 src={imagePreview}
@@ -212,6 +224,71 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
+
+      {/* -------------------------------
+           SUCCESS MODAL + BLUR BACKGROUND
+      -------------------------------- */}
+      <AnimatePresence>
+        {modalOpen && updatedData && (
+          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-999">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.25 }}
+              className="bg-white rounded-xl p-6 w-full max-w-md shadow-xl"
+            >
+              <h2 className="text-lg font-semibold mb-3 text-center">
+                Profile Updated Successfully 🎉
+              </h2>
+
+              {/* Profile Image */}
+              <div className="flex justify-center mb-4">
+                <div className="w-20 h-20 rounded-full overflow-hidden border">
+                  <Image
+                    src={updatedData.profile_image}
+                    alt="Profile"
+                    width={80}
+                    height={80}
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* All Info */}
+              <div className="space-y-2 text-sm">
+                <p>
+                  <strong>First Name:</strong> {updatedData.first_name}
+                </p>
+                <p>
+                  <strong>Last Name:</strong> {updatedData.last_name}
+                </p>
+                <p>
+                  <strong>Bio:</strong> {updatedData.bio}
+                </p>
+                <p>
+                  <strong>Address:</strong> {updatedData.address}
+                </p>
+                <p>
+                  <strong>Contact:</strong> {updatedData.contact_number}
+                </p>
+                <p>
+                  <strong>Birthday:</strong> {updatedData.birthday}
+                </p>
+              </div>
+
+              {/* Close Button */}
+              <div className="mt-5 flex justify-center">
+                <button
+                  onClick={() => setModalOpen(false)}
+                  className="px-5 py-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                >
+                  Close
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </HomeLayout>
   );
 }
