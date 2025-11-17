@@ -32,22 +32,41 @@ export default function TodosPage() {
   if (!token) redirect("/login");
 
   // fetch todos with params
-  const fetchTodos = async () => {
+const fetchTodos = async () => {
   try {
-    const res = await privateAxios.get(GET_TODOS_URL);
+    const queryParams = new URLSearchParams();
 
+    // Search support
+    if (search) queryParams.append("search", search);
+
+    // Filter support
+    if (filters.is_completed) queryParams.append("is_completed", filters.is_completed);
+    if (filters.priority) queryParams.append("priority", filters.priority);
+    if (filters.todo_date) queryParams.append("todo_date", filters.todo_date);
+
+    const url = `${GET_TODOS_URL}?${queryParams.toString()}`;
+
+    const res = await privateAxios.get(url);
+
+    let data = res.data.results || [];
+
+    // ================================
+    //  PRIORITY SORT (extreme → moderate → low)
+    // ================================
     const priorityOrder: Record<string, number> = {
-      extreme: 3,
+      extreme: 1,
       moderate: 2,
-      low: 1,
+      low: 3,
     };
 
-    // custom priority sorting
-    const sortedTodos = res.data.results.sort(
-      (a: Todo, b: Todo) => priorityOrder[b.priority] - priorityOrder[a.priority]
-    );
+    data = data.sort((a: any, b: any) => {
+      const pa = priorityOrder[a.priority] ?? 99;
+      const pb = priorityOrder[b.priority] ?? 99;
+      return pa - pb;
+    });
 
-    setTodos(sortedTodos);
+    setTodos(data);
+
   } catch (err) {
     console.log(err);
     toast.error("Failed to fetch todos!");
