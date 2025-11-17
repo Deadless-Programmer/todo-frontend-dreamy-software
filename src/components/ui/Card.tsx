@@ -7,9 +7,11 @@ import { Todo } from "@/types/todo";
 
 interface TasksPageProps {
   tasks: Todo[];
+  onEdit: (task: Todo) => void;
+  onDelete: (taskId: number) => void;
 }
 
-export default function TasksPage({ tasks }: TasksPageProps) {
+export default function TasksPage({ tasks, onEdit, onDelete }: TasksPageProps) {
   const priorityColors = {
     extreme: "bg-red-100 text-red-700 border border-red-200",
     moderate: "bg-green-100 text-green-700 border border-green-200",
@@ -34,34 +36,26 @@ export default function TasksPage({ tasks }: TasksPageProps) {
               cardBorderColors[task.priority.toLowerCase()]
             } hover:shadow-md transition`}
           >
-            {/* Title + Priority */}
             <div className="flex justify-between items-center">
               <h2 className="text-lg font-semibold text-gray-900">{task.title}</h2>
-
               <div className="flex justify-between items-center gap-2">
-                <span
-                  className={`px-3 py-1 rounded-md text-xs font-medium ${
-                    priorityColors[task.priority.toLowerCase()]
-                  }`}
-                >
+                <span className={`px-3 py-1 rounded-md text-xs font-medium ${priorityColors[task.priority.toLowerCase()]}`}>
                   {task.priority}
                 </span>
                 <CgMenuGridR className="text-[#8CA3CD] text-xl" />
               </div>
             </div>
 
-            {/* Description */}
             <p className="text-gray-600 mt-2 text-sm">{task.description}</p>
 
-            {/* Due date + Actions */}
             <div className="flex justify-between items-center mt-4">
               <p className="text-gray-700 text-sm font-medium">Due {task.todo_date}</p>
 
               <div className="flex gap-3">
-                <button className="p-2 bg-blue-100 rounded-md hover:bg-blue-200 transition">
+                <button onClick={() => onEdit(task)} className="p-2 bg-blue-100 rounded-md hover:bg-blue-200 transition">
                   <Pencil size={16} className="text-blue-700" />
                 </button>
-                <button className="p-2 bg-red-100 rounded-md hover:bg-red-200 transition">
+                <button onClick={() => onDelete(task.id)} className="p-2 bg-red-100 rounded-md hover:bg-red-200 transition">
                   <Trash2 size={16} className="text-red-700" />
                 </button>
               </div>
