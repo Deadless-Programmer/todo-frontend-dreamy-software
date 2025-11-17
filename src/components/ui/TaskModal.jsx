@@ -8,7 +8,7 @@ import { POST_TODOS_URL } from "@/lib/constants";
 import { toast } from "react-toastify";
 
 
-export default function TaskModal({ open, onClose, refreshTodos }) {
+export default function TaskModal({ open, onClose, refreshTodos, todo }) {
   const [title, setTitle] = useState("");
   const [todoDate, setTodoDate] = useState("");
   const [priority, setPriority] = useState("");
