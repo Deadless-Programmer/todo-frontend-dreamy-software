@@ -14,6 +14,12 @@ type User = {
   email: string;
   first_name?: string;
   last_name?: string;
+  profile_image?: string;
+  address?: string;
+  contact_number?: string;
+  birthday?: string;
+ 
+  bio?: string;
 };
 
 type AuthContextType = {
@@ -24,6 +30,7 @@ type AuthContextType = {
     last_name: string;
     email: string;
     password: string;
+    
   }) => Promise<any>;
   login: (email: string, password: string) => Promise<any>;
   logout: () => void;
@@ -33,7 +40,7 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+ const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   // ------------------------------

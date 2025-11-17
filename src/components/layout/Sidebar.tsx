@@ -8,10 +8,11 @@ import Image from "next/image";
 import { HiHome } from "react-icons/hi";
 import { FaUserLarge } from "react-icons/fa6";
 import { MdOutlinePassword } from "react-icons/md";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Sidebar() {
   const pathname = usePathname();
-
+  const {user}=useAuth()
   const isActive = (path: string) =>
     pathname === path;
 
@@ -21,14 +22,14 @@ export default function Sidebar() {
       {/* Profile */}
       <div className="flex flex-col items-center mb-12">
         <Image
-          alt="profile picture"
-          src="https://i.postimg.cc/gkdg1qVD/kirill-balobanov-2r-Is8OH5ng0-unsplash.jpg"
-          width={80}
-          height={80}
-          className="w-20 h-20 rounded-full mb-3"
-        />
-        <h3 className="text-lg font-medium">amanuel</h3>
-        <p className="text-sm text-gray-300">amanuel@gmail.com</p>
+  alt="profile picture"
+  src={user?.profile_image || "/default-profile.png"} // null safe
+  width={80}
+  height={80}
+  className="w-20 h-20 rounded-full mb-3"
+/>
+        <h3 className="text-lg font-medium">{user?.first_name}</h3>
+        <p className="text-sm text-gray-300">{user?.email}</p>
       </div>
 
       {/* Menu */}

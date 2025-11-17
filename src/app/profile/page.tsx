@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { redirect } from "next/navigation";
 import { Camera } from "lucide-react";
 import { BsCloudUpload } from "react-icons/bs";
@@ -11,16 +11,16 @@ import { ME_URL } from "@/lib/constants";
 import { toast } from "react-toastify";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "@/context/AuthContext";
 
 export default function ProfilePage() {
-
-  
+  const { user } = useAuth();
 
   const token = getAccessToken();
   if (!token) redirect("/login");
 
   // -------------------------
-  // FORM STATES
+  // FORM STATES with default values from user
   // -------------------------
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -34,9 +34,24 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(false);
 
   // Modal State
-
   const [modalOpen, setModalOpen] = useState(false);
   const [updatedData, setUpdatedData] = useState<any>(null);
+
+  // -------------------------
+  // Populate form when user loads/changes
+  // -------------------------
+  useEffect(() => {
+    if (user) {
+      setFirstName(user.first_name || "");
+      setLastName(user.last_name || "");
+      setBio(user.bio || "");
+      setAddress(user.address || "");
+      setContact(user.contact_number || "");
+      setBirthday(user.birthday || "");
+      setImagePreview(user.profile_image || null);
+    }
+  }, [user]);
+
   // --------------------------------
   // HANDLE IMAGE UPLOAD + PREVIEW
   // --------------------------------
@@ -71,9 +86,8 @@ export default function ProfilePage() {
       const res = await privateAxios.patch(ME_URL, form);
 
       toast.success("Profile updated successfully!");
-
-      setUpdatedData(res.data); 
-      setModalOpen(true); 
+      setUpdatedData(res.data);
+      setModalOpen(true);
     } catch (error: unknown) {
       type AxiosLikeError = {
         response?: { data?: { detail?: string } };
@@ -245,7 +259,7 @@ export default function ProfilePage() {
               <div className="flex justify-center mb-4">
                 <div className="w-20 h-20 rounded-full overflow-hidden border">
                   <Image
-                    src={updatedData.profile_image}
+                    src={updatedData.profile_image || "/default-profile.png"}
                     alt="Profile"
                     width={80}
                     height={80}
@@ -257,22 +271,22 @@ export default function ProfilePage() {
               {/* All Info */}
               <div className="space-y-2 text-sm">
                 <p>
-                  <strong>First Name:</strong> {updatedData.first_name}
+                  <strong>First Name:</strong> {updatedData.first_name || "-"}
                 </p>
                 <p>
-                  <strong>Last Name:</strong> {updatedData.last_name}
+                  <strong>Last Name:</strong> {updatedData.last_name || "-"}
                 </p>
                 <p>
-                  <strong>Bio:</strong> {updatedData.bio}
+                  <strong>Bio:</strong> {updatedData.bio || "-"}
                 </p>
                 <p>
-                  <strong>Address:</strong> {updatedData.address}
+                  <strong>Address:</strong> {updatedData.address || "-"}
                 </p>
                 <p>
-                  <strong>Contact:</strong> {updatedData.contact_number}
+                  <strong>Contact:</strong> {updatedData.contact_number || "-"}
                 </p>
                 <p>
-                  <strong>Birthday:</strong> {updatedData.birthday}
+                  <strong>Birthday:</strong> {updatedData.birthday || "-"}
                 </p>
               </div>
 
