@@ -14,12 +14,13 @@ import { privateAxios } from "@/lib/api/privateAxios";
 import { DELETE_TODOS_URL, GET_TODOS_URL } from "@/lib/constants";
 import { toast } from "react-toastify";
 import TasksPage from "@/components/ui/Card";
+import SkeletonCard from "@/components/ui/SkeletonCard";
 
 export default function TodosPage() {
   const [openModal, setOpenModal] = useState(false);
   const [todos, setTodos] = useState<Todo[]>([]);
   const [editTask, setEditTask] = useState<Todo | null>(null);
-
+const [loading, setLoading] = useState(true);
   // search + filters
   const [search, setSearch] = useState("");
   const [filters, setFilters] = useState({
@@ -34,12 +35,11 @@ export default function TodosPage() {
   // fetch todos with params
 const fetchTodos = async () => {
   try {
+    setLoading(true);
+
     const queryParams = new URLSearchParams();
 
-    // Search support
     if (search) queryParams.append("search", search);
-
-    // Filter support
     if (filters.is_completed) queryParams.append("is_completed", filters.is_completed);
     if (filters.priority) queryParams.append("priority", filters.priority);
     if (filters.todo_date) queryParams.append("todo_date", filters.todo_date);
@@ -47,12 +47,8 @@ const fetchTodos = async () => {
     const url = `${GET_TODOS_URL}?${queryParams.toString()}`;
 
     const res = await privateAxios.get(url);
-
     let data = res.data.results || [];
 
-    // ================================
-    //  PRIORITY SORT (extreme → moderate → low)
-    // ================================
     const priorityOrder: Record<string, number> = {
       extreme: 1,
       moderate: 2,
@@ -66,10 +62,11 @@ const fetchTodos = async () => {
     });
 
     setTodos(data);
-
   } catch (err) {
-    console.log(err);
+    console.log(err)
     toast.error("Failed to fetch todos!");
+  } finally {
+    setLoading(false);
   }
 };
 
@@ -118,7 +115,7 @@ const fetchTodos = async () => {
 
           <button
             onClick={() => setOpenModal(true)}
-            className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700 shadow-sm"
+            className="flex items-center gap-2 cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700 shadow-sm"
           >
             <Plus size={16} />
             New Task
@@ -211,20 +208,27 @@ const fetchTodos = async () => {
         </div>
 
         {/* Todos List */}
-        {todos.length > 0 ? (
-          <TasksPage tasks={todos} onEdit={handleEdit} onDelete={handleDelete} />
-        ) : (
-          <div className="w-full border border-gray-200 rounded-lg h-[380px] flex flex-col items-center justify-center text-center">
-            <Image
-              src="https://i.postimg.cc/4NZFRj71/icon-no-projects.png"
-              alt="empty"
-              width={160}
-              height={160}
-              className="opacity-80"
-            />
-            <p className="text-gray-600 mt-3 text-2xl">No todos found</p>
-          </div>
-        )}
+      {loading ? (
+  <div className="grid md:grid-cols-3 gap-6">
+    {[...Array(6)].map((_, i) => (
+      <SkeletonCard key={i} />
+    ))}
+  </div>
+) : todos.length > 0 ? (
+  <TasksPage tasks={todos} onEdit={handleEdit} onDelete={handleDelete} />
+) : (
+  <div className="w-full border border-gray-200 rounded-lg h-[380px] flex flex-col items-center justify-center text-center">
+    <Image
+      src="https://i.postimg.cc/4NZFRj71/icon-no-projects.png"
+      alt="empty"
+      width={160}
+      height={160}
+      className="opacity-80"
+    />
+    <p className="text-gray-600 mt-3 text-2xl">No todos found</p>
+  </div>
+)}
+
       </div>
     </HomeLayout>
   );
