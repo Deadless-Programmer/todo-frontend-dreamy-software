@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 
 import { privateAxios } from "@/lib/api/privateAxios";
@@ -8,9 +8,28 @@ import { privateAxios } from "@/lib/api/privateAxios";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { CHANGE_PASSWORD_URL } from "@/lib/constants";
+import { getAccessToken } from "@/utils/token";
 
 const ChangePasswordPage: React.FC = () => {
   const router = useRouter();
+
+   useEffect(() => {
+    const checkAuth = () => {
+      const token = getAccessToken();
+      if (!token) {
+        router.replace("/login");
+      }
+    };
+  
+    checkAuth(); // first time check
+  
+    // if token removed from anywhere → run checkAuth
+    window.addEventListener("storage", checkAuth);
+  
+    return () => {
+      window.removeEventListener("storage", checkAuth);
+    };
+  }, [router]);
 
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");

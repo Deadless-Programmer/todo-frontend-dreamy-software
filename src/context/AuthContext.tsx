@@ -46,25 +46,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // ------------------------------
   // INITIAL LOAD → CHECK TOKEN
   // ------------------------------
-  useEffect(() => {
-    const init = async () => {
-      const access = getAccessToken();
+useEffect(() => {
+  const init = async () => {
+    const access = getAccessToken();
 
-      if (access) {
-        try {
-          await refreshUser();
-        } catch (err) {
-          console.error("Error fetching user on init:", err);
-          clearTokens();
-          setUser(null); // 🔥 FIX #1 → ensure user resets
-        }
+    if (access) {
+      try {
+        await refreshUser();
+      } catch (err) {
+        console.error("Error fetching user on init:", err);
+        clearTokens();
+        setUser(null);
       }
+    } else {
+      setUser(null);
+    }
 
-      setLoading(false); // 🔥 FIX #2 → render only after user state final
-    };
+    setLoading(false);
+  };
 
-    init();
-  }, []);
+  init();
+}, []);
 
   // ------------------------------
   // SIGNUP
@@ -109,13 +111,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = () => {
     clearTokens();
     setUser(null);
+    window.dispatchEvent(new Event("storage"));
+     setLoading(false); 
   };
 
   // ------------------------------
   // FETCH USER FROM /me/
   // ------------------------------
   const refreshUser = async () => {
-    const res = await privateAxios.get(ME_URL); // baseURL + token already present
+    const res = await privateAxios.get(ME_URL); 
     setUser(res.data);
   };
 

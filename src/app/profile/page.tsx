@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { redirect } from "next/navigation";
+import {  useRouter } from "next/navigation";
 import { Camera } from "lucide-react";
 import { BsCloudUpload } from "react-icons/bs";
 import HomeLayout from "@/components/layout/HomeLayout";
@@ -16,8 +16,25 @@ import { useAuth } from "@/context/AuthContext";
 export default function ProfilePage() {
   const { user } = useAuth();
 
-  const token = getAccessToken();
-  if (!token) redirect("/login");
+  const router = useRouter();
+ useEffect(() => {
+  const checkAuth = () => {
+    const token = getAccessToken();
+    if (!token) {
+      router.replace("/login");
+    }
+  };
+
+  checkAuth(); // first time check
+
+  // if token removed from anywhere → run checkAuth
+  window.addEventListener("storage", checkAuth);
+
+  return () => {
+    window.removeEventListener("storage", checkAuth);
+  };
+}, [router]);
+  
 
   // -------------------------
   // FORM STATES with default values from user

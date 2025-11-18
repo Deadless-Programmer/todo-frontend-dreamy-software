@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { redirect } from "next/navigation";
+import {  useRouter } from "next/navigation";
 import { getAccessToken } from "@/utils/token";
 import { Search, Plus, Filter } from "lucide-react";
 import Image from "next/image";
@@ -17,6 +17,26 @@ import TasksPage from "@/components/ui/Card";
 import SkeletonCard from "@/components/ui/SkeletonCard";
 
 export default function TodosPage() {
+const router = useRouter();
+ useEffect(() => {
+  const checkAuth = () => {
+    const token = getAccessToken();
+    if (!token) {
+      router.replace("/login");
+    }
+  };
+
+  checkAuth(); // first time check
+
+  // if token removed from anywhere → run checkAuth
+  window.addEventListener("storage", checkAuth);
+
+  return () => {
+    window.removeEventListener("storage", checkAuth);
+  };
+}, [router]);
+
+
   const [openModal, setOpenModal] = useState(false);
   const [todos, setTodos] = useState<Todo[]>([]);
   const [editTask, setEditTask] = useState<Todo | null>(null);
@@ -29,8 +49,7 @@ const [loading, setLoading] = useState(true);
     todo_date: "",
   });
 
-  const token = getAccessToken();
-  if (!token) redirect("/login");
+  
 
   // fetch todos with params
 const fetchTodos = async () => {

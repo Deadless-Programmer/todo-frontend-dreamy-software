@@ -6,10 +6,11 @@ import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const { login } = useAuth();
-
+const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -53,10 +54,14 @@ export default function LoginPage() {
     if (!validate()) return;
 
     try {
-      await login(email, password);
+    const res =  await login(email, password);
       toast.success("Login successful!");
-      // Optionally redirect:
-      // router.push("/dashboard");
+ console.log("login response:", res)
+ if(res?.data?.access){
+  router.push("/todos");
+ }
+      
+     
     } catch (error: unknown) {
           type AxiosLikeError = { response?: { data?: unknown }; message?: string };
           const err = error as AxiosLikeError;
