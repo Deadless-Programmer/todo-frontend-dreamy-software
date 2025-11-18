@@ -1,4 +1,4 @@
-export const API_BASE = "https://todo-app.pioneeralpha.com";
+export const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
 
 export const SIGNUP_URL = `${API_BASE}/api/users/signup/`;
 export const LOGIN_URL = `${API_BASE}/api/auth/login/`;
