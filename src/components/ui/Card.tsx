@@ -4,7 +4,7 @@ import { Todo } from "@/types/todo";
 
 import { DragDropContext, Droppable, Draggable, DropResult } from "@hello-pangea/dnd";
 import { Pencil, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CgMenuGridR } from "react-icons/cg";
 
 interface TasksPageProps {
@@ -37,6 +37,10 @@ export default function TasksPage({ tasks, onEdit, onDelete }: TasksPageProps) {
 
     setTodoList(items);
   };
+
+  useEffect(() => {
+    setTodoList(tasks);
+  }, [tasks]);
 
   return (
     <div className="py-10">

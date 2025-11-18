@@ -20,7 +20,7 @@ export default function Topbar() {
   
   const todayName = weekDays[today.getDay()];
 
-  // Format date: DD/MM/YYYY
+ 
   const formattedDate = today.toLocaleDateString("en-GB");
 
   return (

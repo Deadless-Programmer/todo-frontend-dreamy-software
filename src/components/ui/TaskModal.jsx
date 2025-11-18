@@ -64,7 +64,9 @@ export default function TaskModal({ open, onClose, refreshTodos, editTask }) {
       refreshTodos?.();
     } catch (error) {
       console.log("Todo Error:", error);
-      toast.error(editTask ? "Failed to update todo!" : "Failed to create todo!");
+      toast.error(
+        editTask ? "Failed to update todo!" : "Failed to create todo!"
+      );
     } finally {
       setLoading(false);
     }
@@ -77,22 +79,28 @@ export default function TaskModal({ open, onClose, refreshTodos, editTask }) {
   return (
     <AnimatePresence>
       {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="absolute inset-0 h-full w-full z-50 flex items-start justify-center">
           <motion.div
             key="overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
-            onClick={onClose}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+        className="fixed inset-0 bg-black/30 backdrop-blur-md"
+        style={{
+      top: "80px",
+      left: "300px",
+      right: 0,
+      bottom: 0,
+    }}
           />
 
           <motion.div
             key="modal"
-            initial={{ opacity: 0, scale: 0.85, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.85, y: 20 }}
-            className="relative bg-white w-full max-w-xl mx-4 rounded-xl shadow-lg p-6 z-50"
+        initial={{ opacity: 0, scale: 0.85, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.85, y: 20 }}
+        className="absolute top-10 bg-white w-full max-w-xl mx-4 rounded-xl shadow-lg p-6"
           >
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-semibold border-b-2 border-blue-500">
@@ -137,7 +145,12 @@ export default function TaskModal({ open, onClose, refreshTodos, editTask }) {
                   >
                     <span className="w-2.5 h-2.5 bg-red-600 rounded-full"></span>
                     Extreme
-                    <input type="radio" name="priority" checked={priority === "extreme"} readOnly />
+                    <input
+                      type="radio"
+                      name="priority"
+                      checked={priority === "extreme"}
+                      readOnly
+                    />
                   </label>
                   <label
                     onClick={() => selectPriority("moderate")}
@@ -145,7 +158,12 @@ export default function TaskModal({ open, onClose, refreshTodos, editTask }) {
                   >
                     <span className="w-2.5 h-2.5 bg-green-600 rounded-full"></span>
                     Moderate
-                    <input type="radio" name="priority" checked={priority === "moderate"} readOnly />
+                    <input
+                      type="radio"
+                      name="priority"
+                      checked={priority === "moderate"}
+                      readOnly
+                    />
                   </label>
                   <label
                     onClick={() => selectPriority("low")}
@@ -153,13 +171,20 @@ export default function TaskModal({ open, onClose, refreshTodos, editTask }) {
                   >
                     <span className="w-2.5 h-2.5 bg-yellow-500 rounded-full"></span>
                     Low
-                    <input type="radio" name="priority" checked={priority === "low"} readOnly />
+                    <input
+                      type="radio"
+                      name="priority"
+                      checked={priority === "low"}
+                      readOnly
+                    />
                   </label>
                 </div>
               </div>
 
               <div>
-                <label className="text-sm text-gray-700">Task Description</label>
+                <label className="text-sm text-gray-700">
+                  Task Description
+                </label>
                 <textarea
                   rows={4}
                   value={description}
@@ -179,7 +204,10 @@ export default function TaskModal({ open, onClose, refreshTodos, editTask }) {
                 {loading ? "Saving..." : "Done"}
               </button>
 
-              <button onClick={onClose} className="p-2 bg-red-500 text-white rounded-md cursor-pointer">
+              <button
+                onClick={onClose}
+                className="p-2 bg-red-500 text-white rounded-md cursor-pointer"
+              >
                 <Trash2 size={18} />
               </button>
             </div>

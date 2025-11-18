@@ -25,9 +25,8 @@ export default function TodosPage() {
       }
     };
 
-    checkAuth(); 
+    checkAuth();
 
-    
     window.addEventListener("storage", checkAuth);
 
     return () => {
@@ -116,15 +115,17 @@ export default function TodosPage() {
   return (
     <ProtectedRoute>
       <HomeLayout>
-        <TaskModal
-          open={openModal}
-          onClose={() => {
-            setOpenModal(false);
-            setEditTask(null);
-          }}
-          refreshTodos={fetchTodos}
-          editTask={editTask}
-        />
+        <div className="relative">
+          <TaskModal
+            open={openModal}
+            onClose={() => {
+              setOpenModal(false);
+              setEditTask(null);
+            }}
+            refreshTodos={fetchTodos}
+            editTask={editTask}
+          />
+        </div>
 
         <div className="w-full bg-white p-6 mt-6 rounded-lg shadow-sm space-y-4 max-w-[1100px] mx-auto">
           <div className="flex justify-between items-center">
