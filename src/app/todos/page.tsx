@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+
 import { getAccessToken } from "@/utils/token";
 import { Search, Plus, Filter } from "lucide-react";
 import Image from "next/image";
@@ -14,15 +14,16 @@ import { toast } from "react-toastify";
 import TasksPage from "@/components/ui/Card";
 import SkeletonCard from "@/components/ui/SkeletonCard";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
+import { AxiosError } from "axios";
 
-export default function TodosPage() {
-  const router = useRouter();
+export default  function TodosPage() {
+  
+  
+  
   useEffect(() => {
     const checkAuth = () => {
       const token = getAccessToken();
-      if (!token) {
-        router.replace("/login");
-      }
+     if (token) fetchTodos();
     };
 
     checkAuth();
@@ -32,7 +33,7 @@ export default function TodosPage() {
     return () => {
       window.removeEventListener("storage", checkAuth);
     };
-  }, [router]);
+  }, []);
 
   const [openModal, setOpenModal] = useState(false);
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -77,10 +78,15 @@ export default function TodosPage() {
       });
 
       setTodos(data);
-    } catch (err) {
-      console.log(err);
-      toast.error("Failed to fetch todos!");
-    } finally {
+    } catch (err: unknown) {
+  if (err instanceof AxiosError) {
+    if (err.response?.status === 401) return; // no toast
+    toast.error("Failed to fetch todos!");
+  } else {
+    // Unknown error
+    toast.error("An unexpected error occurred!");
+  }
+}finally {
       setLoading(false);
     }
   };
@@ -111,7 +117,7 @@ export default function TodosPage() {
   const applyFilter = () => {
     fetchTodos();
   };
-
+ 
   return (
     <ProtectedRoute>
       <HomeLayout>

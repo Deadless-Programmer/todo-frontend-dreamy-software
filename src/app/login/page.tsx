@@ -71,8 +71,8 @@ export default function LoginPage() {
       type AxiosLikeError = { response?: { data?: unknown }; message?: string };
       const err = error as AxiosLikeError;
       const errInfo = err.response?.data ?? err.message ?? String(error);
-      console.error(errInfo);
-      toast.error("Login failed. Please check your details.");
+      // console.error(errInfo);
+      toast.error("Login failed. Please check your details.", errInfo);
     }
   };
 
@@ -160,12 +160,12 @@ export default function LoginPage() {
                 <input type="checkbox" className="w-4 h-4 text-blue-400" />
                 <label className="ml-2 text-gray-700">Remember Me</label>
               </div>
-              <Link
-                href="/forgotPassword"
-                className="text-gray-500 hover:text-blue-600"
+              <label
+               
+                className="text-gray-500 hover:text-blue-600 cursor-pointer"
               >
                 Forgot Your Password?
-              </Link>
+              </label>
             </div>
 
             <button
