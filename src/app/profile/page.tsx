@@ -1,40 +1,21 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import {  useRouter } from "next/navigation";
+
 import { Camera } from "lucide-react";
 import { BsCloudUpload } from "react-icons/bs";
 import HomeLayout from "@/components/layout/HomeLayout";
-import { getAccessToken } from "@/utils/token";
+
 import { privateAxios } from "@/lib/api/privateAxios";
 import { ME_URL } from "@/lib/constants";
 import { toast } from "react-toastify";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
 
 export default function ProfilePage() {
   const { user } = useAuth();
-
-  const router = useRouter();
- useEffect(() => {
-  const checkAuth = () => {
-    const token = getAccessToken();
-    if (!token) {
-      router.replace("/login");
-    }
-  };
-
-  checkAuth(); // first time check
-
-  // if token removed from anywhere → run checkAuth
-  window.addEventListener("storage", checkAuth);
-
-  return () => {
-    window.removeEventListener("storage", checkAuth);
-  };
-}, [router]);
-  
 
   // -------------------------
   // FORM STATES with default values from user
@@ -122,6 +103,9 @@ export default function ProfilePage() {
   };
 
   return (
+
+    <ProtectedRoute>
+
     <HomeLayout>
       <div
         className={`w-full max-w-[1100px] bg-white p-6 rounded-lg shadow-sm mx-auto space-y-4 transition-all ${
@@ -321,5 +305,6 @@ export default function ProfilePage() {
         )}
       </AnimatePresence>
     </HomeLayout>
+    </ProtectedRoute>
   );
 }

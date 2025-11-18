@@ -6,11 +6,14 @@ import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function LoginPage() {
   const { login } = useAuth();
-const router = useRouter();
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -54,26 +57,27 @@ const router = useRouter();
     if (!validate()) return;
 
     try {
-    const res =  await login(email, password);
+      const res = await login(email, password);
       toast.success("Login successful!");
- console.log("login response:", res)
- if(res?.data?.access){
-  router.push("/todos");
- }
-      
-     
-    } catch (error: unknown) {
-          type AxiosLikeError = { response?: { data?: unknown }; message?: string };
-          const err = error as AxiosLikeError;
-          const errInfo = err.response?.data ?? err.message ?? String(error);
-          console.error(errInfo);
-          toast.error("Login failed. Please check your details.");
+      console.log("login response:", res);
+      if (res?.data?.access) {
+        if (redirectTo) {
+          router.replace(redirectTo);
+        } else {
+          router.replace("/todos"); // fallback
         }
+      }
+    } catch (error: unknown) {
+      type AxiosLikeError = { response?: { data?: unknown }; message?: string };
+      const err = error as AxiosLikeError;
+      const errInfo = err.response?.data ?? err.message ?? String(error);
+      console.error(errInfo);
+      toast.error("Login failed. Please check your details.");
+    }
   };
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
-      
       {/* Left side image */}
       <div className="hidden md:flex w-full md:w-[606px] relative bg-[#E2ECF8] h-full min-h-screen overflow-hidden">
         <Image
@@ -96,10 +100,11 @@ const router = useRouter();
           </p>
 
           <form className="space-y-4" onSubmit={handleSubmit}>
-            
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">Email</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Email
+              </label>
               <input
                 type="email"
                 placeholder="Email"
@@ -116,7 +121,9 @@ const router = useRouter();
 
             {/* Password */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">Password</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Password
+              </label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -153,7 +160,10 @@ const router = useRouter();
                 <input type="checkbox" className="w-4 h-4 text-blue-400" />
                 <label className="ml-2 text-gray-700">Remember Me</label>
               </div>
-              <Link href="/forgotPassword" className="text-gray-500 hover:text-blue-600">
+              <Link
+                href="/forgotPassword"
+                className="text-gray-500 hover:text-blue-600"
+              >
                 Forgot Your Password?
               </Link>
             </div>

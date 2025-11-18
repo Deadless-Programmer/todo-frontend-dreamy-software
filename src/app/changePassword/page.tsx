@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { CHANGE_PASSWORD_URL } from "@/lib/constants";
 import { getAccessToken } from "@/utils/token";
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
 
 const ChangePasswordPage: React.FC = () => {
   const router = useRouter();
@@ -66,6 +67,9 @@ const ChangePasswordPage: React.FC = () => {
   };
 
   return (
+
+    <ProtectedRoute>
+
     <div className="flex items-center justify-center min-h-screen bg-gray-50 p-4 sm:p-6">
       <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6 sm:p-8 border border-gray-100">
         <div className="flex justify-around border-b border-gray-200 mb-6">
@@ -114,6 +118,7 @@ const ChangePasswordPage: React.FC = () => {
         </form>
       </div>
     </div>
+    </ProtectedRoute>
   );
 };
 
