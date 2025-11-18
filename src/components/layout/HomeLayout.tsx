@@ -7,7 +7,7 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-[#EAF3FB] min-h-screen">
+    <div className="bg-[#f6fafd] min-h-screen">
       <Sidebar />
       <Topbar />
 

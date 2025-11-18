@@ -170,7 +170,7 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded-lg mt-4 hover:bg-blue-700 transition"
+              className="w-full cursor-pointer bg-blue-600 text-white py-2 rounded-lg mt-4 hover:bg-blue-700 transition"
             >
               Log in
             </button>
@@ -178,7 +178,7 @@ export default function LoginPage() {
 
           <p className="text-center text-sm text-gray-500 mt-4">
             Do not have an account?{" "}
-            <Link href="/signup" className="text-blue-600 hover:underline">
+            <Link href="/signup" className="text-blue-600 cursor-pointer hover:underline">
               Register now
             </Link>
           </p>

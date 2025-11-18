@@ -39,6 +39,8 @@ export default function TasksPage({ tasks, onEdit, onDelete }: TasksPageProps) {
   };
 
   return (
+    <div className="py-10">
+ <h1 className="text-2xl font-semibold mb-5">Your Tasks</h1>
     <DragDropContext onDragEnd={handleDragEnd}>
       <Droppable droppableId="todos">
         {(provided) => (
@@ -92,5 +94,6 @@ export default function TasksPage({ tasks, onEdit, onDelete }: TasksPageProps) {
         )}
       </Droppable>
     </DragDropContext>
+    </div>
   );
 }

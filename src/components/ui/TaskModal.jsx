@@ -179,7 +179,7 @@ export default function TaskModal({ open, onClose, refreshTodos, editTask }) {
                 {loading ? "Saving..." : "Done"}
               </button>
 
-              <button className="p-2 bg-red-300 text-white rounded-md cursor-not-allowed">
+              <button onClick={onClose} className="p-2 bg-red-500 text-white rounded-md cursor-pointer">
                 <Trash2 size={18} />
               </button>
             </div>

@@ -196,7 +196,7 @@ export default function SignupPage() {
 
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded-lg mt-4 hover:bg-blue-700 transition"
+              className="w-full bg-blue-600 cursor-pointer text-white py-2 rounded-lg mt-4 hover:bg-blue-700 transition"
             >
               Sign Up
             </button>
@@ -204,7 +204,7 @@ export default function SignupPage() {
 
           <p className="text-center text-sm text-gray-500 mt-4">
             Already have an account?{" "}
-            <Link href="/login" className="text-blue-600 hover:underline">
+            <Link href="/login" className="text-blue-600 hover:underline cursor-pointer">
               Log in
             </Link>
           </p>
