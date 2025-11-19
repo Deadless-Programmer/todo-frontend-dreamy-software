@@ -49,6 +49,8 @@ export default  function TodosPage() {
 
   // fetch todos with params
   const fetchTodos = async () => {
+    const token = getAccessToken();
+  if (!token) return;
     try {
       setLoading(true);
 
@@ -80,7 +82,7 @@ export default  function TodosPage() {
       setTodos(data);
     } catch (err: unknown) {
   if (err instanceof AxiosError) {
-    if (err.response?.status === 401) return; // no toast
+    // if (err.response?.status === 401) return;
     toast.error("Failed to fetch todos!");
   } else {
     // Unknown error
@@ -91,9 +93,9 @@ export default  function TodosPage() {
     }
   };
 
-  useEffect(() => {
-    fetchTodos();
-  }, []);
+  // useEffect(() => {
+  //   fetchTodos();
+  // }, []);
 
   // Delete todo
   const handleDelete = async (id: number) => {

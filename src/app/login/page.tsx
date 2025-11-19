@@ -79,15 +79,15 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
       {/* Left side image */}
-      <div className="hidden md:flex w-full md:w-[606px] relative bg-[#E2ECF8] h-full min-h-screen overflow-hidden">
-        <Image
-          src="/images/login.jpg"
-          alt="Login Illustration"
-          fill
-          priority
-          className="object-contain"
-        />
-      </div>
+    <div className="hidden md:flex w-full md:w-[606px] h-screen relative bg-[#E2ECF8]">
+  <Image
+    src="/images/login.jpg"
+    alt="Login Illustration"
+    fill
+    priority
+    className="object-contain"
+  />
+</div>
 
       {/* Right form section */}
       <div className="flex-1 flex items-center justify-center">

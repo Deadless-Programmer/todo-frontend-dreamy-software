@@ -78,15 +78,16 @@ export default function SignupPage() {
 
   return (
     <div className="min-h-screen flex flex-col -between md:flex-row">
-      <div className="hidden md:flex w-full md:w-[606px] relative bg-[#E2ECF8] h-full min-h-screen overflow-hidden">
-        <Image
-          src="/images/signUpImage.png"
-          alt="Signup Illustration"
-          fill
-          priority
-          className="object-contain"
-        />
-      </div>
+     <div className="hidden md:flex w-full md:w-[606px] h-screen relative bg-[#E2ECF8]">
+  <Image
+    src="/images/signUpImage.png"
+    alt="signup Illustration"
+    fill
+    priority
+    className="object-contain"
+  />
+</div>
+
 
       <div className="flex-1 flex items-center justify-center">
         <div className="w-full max-w-md bg-white p-8">
