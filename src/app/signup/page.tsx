@@ -80,7 +80,7 @@ export default function SignupPage() {
     <div className="min-h-screen flex flex-col -between md:flex-row">
      <div className="hidden md:flex w-full md:w-[606px] h-screen relative bg-[#E2ECF8]">
   <Image
-    src="/images/signUpImage.png"
+    src={"https://i.postimg.cc/XYMY6GZk/sign-Up-Image.png"}
     alt="signup Illustration"
     fill
     priority
