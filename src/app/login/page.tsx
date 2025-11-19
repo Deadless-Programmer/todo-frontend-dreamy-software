@@ -79,14 +79,13 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
       {/* Left side image */}
-      <div className="hidden md:flex w-full md:w-[606px] h-screen relative bg-[#E2ECF8]">
+      <div className="hidden md:flex w-full md:w-[606px] relative bg-[#E2ECF8] h-full min-h-screen overflow-hidden">
         <Image
-          src="/images/login.jpg"
+          src={"https://i.postimg.cc/85zY04TD/login.jpg"}
           alt="Login Illustration"
           fill
           priority
           className="object-contain"
-          sizes="(max-width: 768px) 100vw, 606px"
         />
       </div>
 
@@ -161,7 +160,10 @@ export default function LoginPage() {
                 <input type="checkbox" className="w-4 h-4 text-blue-400" />
                 <label className="ml-2 text-gray-700">Remember Me</label>
               </div>
-              <label className="text-gray-500 hover:text-blue-600 cursor-pointer">
+              <label
+               
+                className="text-gray-500 hover:text-blue-600 cursor-pointer"
+              >
                 Forgot Your Password?
               </label>
             </div>
@@ -176,10 +178,7 @@ export default function LoginPage() {
 
           <p className="text-center text-sm text-gray-500 mt-4">
             Do not have an account?{" "}
-            <Link
-              href="/signup"
-              className="text-blue-600 cursor-pointer hover:underline"
-            >
+            <Link href="/signup" className="text-blue-600 cursor-pointer hover:underline">
               Register now
             </Link>
           </p>
